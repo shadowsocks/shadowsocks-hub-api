@@ -92,6 +92,7 @@ There are two type of users: `admin user` and `normal user`. Admin user has priv
 
 #### Login
 Both `admin user` and `normal user` can call this API.
+
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  POST                                                             |
@@ -113,6 +114,7 @@ Response example:
 
 #### Create User
 Only `admin user` can call this API.
+
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  POST                                                             |
@@ -134,6 +136,7 @@ Response example:
 
 #### Delete User
 Only `admin user` can call this API.
+
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  DELETE                                                           |
@@ -149,6 +152,7 @@ curl -ik -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6
 
 #### Get User
 Both `admin user` and `normal user` can call this API. But `normal user` can get user about themselves. The `admin user` can get user about anyone.
+
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  GET                                                              |
@@ -169,6 +173,7 @@ Response example:
 
 #### Update User
 Both `admin user` and `normal user` can call this API. But `normal user` can get user about themselves. The `admin user` can get user about anyone.
+
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  PUT                                                              |
