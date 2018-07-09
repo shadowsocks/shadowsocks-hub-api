@@ -94,7 +94,29 @@
     };
 }, function(e, r, t) {
     "use strict";
-    var n, a, s = (n = regeneratorRuntime.mark(function e(r, t, n) {
+    var n, a, s = (n = o(regeneratorRuntime.mark(function e(r, t, n) {
+        return regeneratorRuntime.wrap(function(e) {
+            for (;;) switch (e.prev = e.next) {
+              case 0:
+                if ("admin" !== r.user.role) {
+                    e.next = 4;
+                    break;
+                }
+                return e.abrupt("return", n());
+
+              case 4:
+                return e.abrupt("return", t.status(401).end());
+
+              case 5:
+              case 6:
+              case "end":
+                return e.stop();
+            }
+        }, e, this);
+    })), function(e, r, t) {
+        return n.apply(this, arguments);
+    }), u = (a = o(regeneratorRuntime.mark(function e(r, t, n) {
+        var a;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
@@ -105,44 +127,48 @@
                 return e.abrupt("return", n());
 
               case 2:
-                if ((r.body.id || r.params.id || null) === r.user.id) {
-                    e.next = 6;
+                if (a = void 0, r.query.ids && 1 === r.query.ids.length && (a = r.query.ids[0]), 
+                (r.body.id || r.query.id || a || null) === r.user.id) {
+                    e.next = 9;
                     break;
                 }
                 return e.abrupt("return", t.status(401).end());
 
-              case 6:
+              case 9:
                 return e.abrupt("return", n());
 
-              case 8:
+              case 11:
               case "end":
                 return e.stop();
             }
         }, e, this);
-    }), a = function() {
-        var e = n.apply(this, arguments);
-        return new Promise(function(r, t) {
-            return function n(a, s) {
-                try {
-                    var u = e[a](s), o = u.value;
-                } catch (e) {
-                    return void t(e);
-                }
-                if (!u.done) return Promise.resolve(o).then(function(e) {
-                    n("next", e);
-                }, function(e) {
-                    n("throw", e);
-                });
-                r(o);
-            }("next");
-        });
-    }, function(e, r, t) {
+    })), function(e, r, t) {
         return a.apply(this, arguments);
     });
-    var u = [ t(44).authenticate("jwt", {
+    function o(e) {
+        return function() {
+            var r = e.apply(this, arguments);
+            return new Promise(function(e, t) {
+                return function n(a, s) {
+                    try {
+                        var u = r[a](s), o = u.value;
+                    } catch (e) {
+                        return void t(e);
+                    }
+                    if (!u.done) return Promise.resolve(o).then(function(e) {
+                        n("next", e);
+                    }, function(e) {
+                        n("throw", e);
+                    });
+                    e(o);
+                }("next");
+            });
+        };
+    }
+    var i = t(44).authenticate("jwt", {
         session: !1
-    }), s ];
-    e.exports = u;
+    }), c = [ i, s ], p = [ i, u ];
+    e.exports.adminAuth = c, e.exports.userAuth = p, e.exports.authentication = i;
 }, function(e, r) {
     e.exports = require("node-uuid");
 }, function(e, r, t) {
@@ -2697,7 +2723,7 @@
                 throw new Error("accountId does not exist");
 
               case 11:
-                return s = new q({
+                return s = new O({
                     accountId: t,
                     usage: n,
                     lastMeterReading: a
@@ -3099,10 +3125,10 @@
             });
         };
     }
-    var N = t(1), O = t(51), q = t(23), C = t(50), L = (t(7), t(8));
+    var N = t(1), q = t(51), O = t(23), C = t(50), L = (t(7), t(8));
     t(0)("traffic:service");
     function F(e) {
-        var r = O(e, "accountId"), t = [];
+        var r = q(e, "accountId"), t = [];
         return Object.keys(r).forEach(function(e) {
             t.push({
                 accountId: e,
@@ -9391,11 +9417,12 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(52);
-    n.get("/", a, s.getTrafficById), n.get("/account", a, s.getLatestUsageByAccountId), 
-    n.get("/all_account", a, s.getLatestUsageForAllAccounts), n.get("/purchase", a, s.getLatestUsageByPurchaseId), 
-    n.get("/all_purchase", a, s.getLatestUsageForAllPurchase), n.get("/history", a, s.getTrafficHistoryByAccountId), 
-    n.get("/history_by_purchase_id", a, s.getTrafficHistoryByPurchaseId), n.get("/history_by_user_id", a, s.getTrafficHistoryByUserId), 
-    n.get("/history_by_server_id", a, s.getTrafficHistoryByServerId), n.get("/all_history", a, s.getAllTrafficHistory);
+    n.get("/", a.adminAuth, s.getTrafficById), n.get("/account", a.adminAuth, s.getLatestUsageByAccountId), 
+    n.get("/all_account", a.adminAuth, s.getLatestUsageForAllAccounts), n.get("/purchase", a.adminAuth, s.getLatestUsageByPurchaseId), 
+    n.get("/all_purchase", a.adminAuth, s.getLatestUsageForAllPurchase), n.get("/history", a.adminAuth, s.getTrafficHistoryByAccountId), 
+    n.get("/history_by_purchase_id", a.adminAuth, s.getTrafficHistoryByPurchaseId), 
+    n.get("/history_by_user_id", a.userAuth, s.getTrafficHistoryByUserId), n.get("/history_by_server_id", a.adminAuth, s.getTrafficHistoryByServerId), 
+    n.get("/all_history", a.adminAuth, s.getAllTrafficHistory);
 }, function(e, r, t) {
     "use strict";
     var n, a, s, u, o = (n = d(regeneratorRuntime.mark(function e(r, t) {
@@ -9458,30 +9485,41 @@
                 return e.prev = 5, e.next = 8, l.getSsAccountById(r.query.id);
 
               case 8:
-                return a = e.sent, s = h(a), e.abrupt("return", t.status(200).send(s));
+                if (a = e.sent, (s = h(a)).purchase.user.id !== r.user.id) {
+                    e.next = 14;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(s));
 
-              case 13:
-                if (e.prev = 13, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
-                    e.next = 17;
+              case 14:
+                return e.abrupt("return", t.status(401).end());
+
+              case 15:
+                e.next = 24;
+                break;
+
+              case 18:
+                if (e.prev = 18, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
+                    e.next = 22;
                     break;
                 }
                 return e.abrupt("return", t.status(404).end());
 
-              case 17:
+              case 22:
                 return e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 19:
-              case 20:
+              case 24:
+              case 25:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 5, 13 ] ]);
+        }, e, this, [ [ 5, 18 ] ]);
     })), function(e, r) {
         return a.apply(this, arguments);
     }), c = (s = d(regeneratorRuntime.mark(function e(r, t) {
-        var n, a, s, u, o, i, c;
+        var n, a, s, u, o, i, c, p;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
@@ -9541,19 +9579,32 @@
                 return e.prev = 31, e.next = 34, l.getSsAccountsByIds(r.query.ids);
 
               case 34:
-                return c = e.sent, e.abrupt("return", t.status(200).send(c));
+                if (c = e.sent, p = !0, c.forEach(function(e) {
+                    e.purchase.user.id !== r.user.id && (p = !1);
+                }), !p) {
+                    e.next = 41;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(c));
 
-              case 38:
-                return e.prev = 38, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
+              case 41:
+                return e.abrupt("return", t.status(401).end());
+
+              case 42:
+                e.next = 48;
+                break;
+
+              case 45:
+                return e.prev = 45, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
                     error: e.t1
                 }));
 
-              case 41:
-              case 42:
+              case 48:
+              case 49:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 38 ] ]);
+        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 45 ] ]);
     })), function(e, r) {
         return s.apply(this, arguments);
     }), p = (u = d(regeneratorRuntime.mark(function e(r, t) {
@@ -9640,7 +9691,8 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(54);
-    n.post("/", a, s.addSsAccount), n.get("/", a, s.getSsAccountById), n.delete("/", a, s.deleteSsAccountById);
+    n.post("/", a.adminAuth, s.addSsAccount), n.get("/", a.authentication, s.getSsAccountById), 
+    n.delete("/", a.adminAuth, s.deleteSsAccountById);
 }, function(e, r, t) {
     "use strict";
     var n, a, s, u, o, i = (n = l(regeneratorRuntime.mark(function e(r, t) {
@@ -9667,7 +9719,7 @@
     })), function(e, r) {
         return n.apply(this, arguments);
     }), c = (a = l(regeneratorRuntime.mark(function e(r, t) {
-        var n, a, s, u, o, i, c;
+        var n, a, s, u, o, i, c, p;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
@@ -9727,23 +9779,36 @@
                 return e.prev = 31, e.next = 34, m.getAccountsByIds(r.query.ids);
 
               case 34:
-                return c = e.sent, e.abrupt("return", t.status(200).send(c));
+                if (c = e.sent, p = !0, c.forEach(function(e) {
+                    e.purchase.user.id !== r.user.id && (p = !1);
+                }), !p) {
+                    e.next = 41;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(c));
 
-              case 38:
-                return e.prev = 38, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
+              case 41:
+                return e.abrupt("return", t.status(401).end());
+
+              case 42:
+                e.next = 48;
+                break;
+
+              case 45:
+                return e.prev = 45, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
                     error: e.t1
                 }));
 
-              case 41:
-              case 42:
+              case 48:
+              case 49:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 38 ] ]);
+        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 45 ] ]);
     })), function(e, r) {
         return a.apply(this, arguments);
     }), p = (s = l(regeneratorRuntime.mark(function e(r, t) {
-        var n, a, s, u, o, i, c;
+        var n, a, s, u, o, i, c, p;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
@@ -9803,19 +9868,32 @@
                 return e.prev = 31, e.next = 34, m.getAccountsByPurchaseIds(r.query.purchaseIds);
 
               case 34:
-                return c = e.sent, e.abrupt("return", t.status(200).send(c));
+                if (c = e.sent, p = !0, c.forEach(function(e) {
+                    e.purchase.user.id !== r.user.id && (p = !1);
+                }), !p) {
+                    e.next = 41;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(c));
 
-              case 38:
-                return e.prev = 38, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
+              case 41:
+                return e.abrupt("return", t.status(401).end());
+
+              case 42:
+                e.next = 48;
+                break;
+
+              case 45:
+                return e.prev = 45, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
                     error: e.t1
                 }));
 
-              case 41:
-              case 42:
+              case 48:
+              case 49:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 38 ] ]);
+        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 45 ] ]);
     })), function(e, r) {
         return s.apply(this, arguments);
     }), d = (u = l(regeneratorRuntime.mark(function e(r, t) {
@@ -9912,9 +9990,9 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(56), u = t(55);
-    n.use("/", u), n.get("/all", a, s.getAllAccounts), n.get("/accounts", a, s.getAccountsByIds), 
-    n.get("/accounts_by_purchase_ids", a, s.getAccountsByPurchaseIds), n.get("/accounts_by_user_id", a, s.getAccountsByUserId), 
-    n.get("/accounts_by_server_id", a, s.getAccountsByServerId);
+    n.use("/", u), n.get("/all", a.adminAuth, s.getAllAccounts), n.get("/accounts", a.authentication, s.getAccountsByIds), 
+    n.get("/accounts_by_purchase_ids", a.authentication, s.getAccountsByPurchaseIds), 
+    n.get("/accounts_by_user_id", a.userAuth, s.getAccountsByUserId), n.get("/accounts_by_server_id", a.adminAuth, s.getAccountsByServerId);
 }, function(e, r, t) {
     "use strict";
     var n, a, s, u, o, i = (n = l(regeneratorRuntime.mark(function e(r, t) {
@@ -9995,26 +10073,37 @@
                 return e.prev = 5, e.next = 8, m.getPurchaseById(r.query.id);
 
               case 8:
-                return a = e.sent, e.abrupt("return", t.status(200).send(a));
+                if ((a = e.sent).user.id !== r.user.id) {
+                    e.next = 13;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(a));
 
-              case 12:
-                if (e.prev = 12, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
-                    e.next = 16;
+              case 13:
+                return e.abrupt("return", t.status(401).end());
+
+              case 14:
+                e.next = 23;
+                break;
+
+              case 17:
+                if (e.prev = 17, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
+                    e.next = 21;
                     break;
                 }
                 return e.abrupt("return", t.status(404).end());
 
-              case 16:
+              case 21:
                 return e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 18:
-              case 19:
+              case 23:
+              case 24:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 5, 12 ] ]);
+        }, e, this, [ [ 5, 17 ] ]);
     })), function(e, r) {
         return a.apply(this, arguments);
     }), p = (s = l(regeneratorRuntime.mark(function e(r, t) {
@@ -10041,7 +10130,7 @@
     })), function(e, r) {
         return s.apply(this, arguments);
     }), d = (u = l(regeneratorRuntime.mark(function e(r, t) {
-        var n, a, s, u, o, i, c;
+        var n, a, s, u, o, i, c, p;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
@@ -10101,19 +10190,32 @@
                 return e.prev = 31, e.next = 34, m.getPurchasesByIds(r.query.ids);
 
               case 34:
-                return c = e.sent, e.abrupt("return", t.status(200).send(c));
+                if (c = e.sent, p = !0, c.forEach(function(e) {
+                    e.user.id !== r.user.id && (p = !1);
+                }), !p) {
+                    e.next = 41;
+                    break;
+                }
+                return e.abrupt("return", t.status(200).send(c));
 
-              case 38:
-                return e.prev = 38, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
+              case 41:
+                return e.abrupt("return", t.status(401).end());
+
+              case 42:
+                e.next = 48;
+                break;
+
+              case 45:
+                return e.prev = 45, e.t1 = e.catch(31), e.abrupt("return", t.status(500).send({
                     error: e.t1
                 }));
 
-              case 41:
-              case 42:
+              case 48:
+              case 49:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 38 ] ]);
+        }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 45 ] ]);
     })), function(e, r) {
         return u.apply(this, arguments);
     }), f = (o = l(regeneratorRuntime.mark(function e(r, t) {
@@ -10178,7 +10280,7 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(58);
-    n.post("/request", a, s.createPurchase);
+    n.post("/request", a.authentication, s.createPurchase);
 }, function(e, r) {
     e.exports = require("currency-formatter");
 }, function(e, r) {
@@ -10396,7 +10498,7 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(62);
-    n.post("/approve", a, s.approveAdminApprovalById);
+    n.post("/approve", a.adminAuth, s.approveAdminApprovalById);
 }, function(e, r, t) {
     "use strict";
     var n = t(2)();
@@ -10704,8 +10806,9 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(65);
-    n.post("/", a, s.addProduct), n.get("/", a, s.getProductById), n.get("/products", a, s.getProductsByIds), 
-    n.get("/all", a, s.getAllProducts), n.put("/", a, s.updateProduct), n.delete("/", a, s.deleteProduct);
+    n.post("/", a.adminAuth, s.addProduct), n.get("/", a.adminAuth, s.getProductById), 
+    n.get("/products", a.adminAuth, s.getProductsByIds), n.get("/all", a.adminAuth, s.getAllProducts), 
+    n.put("/", a.adminAuth, s.updateProduct), n.delete("/", a.adminAuth, s.deleteProduct);
 }, function(e, r) {
     e.exports = require("jwt-decode");
 }, function(e, r) {
@@ -11691,8 +11794,9 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(70);
-    n.post("/", a, s.addNode), n.get("/", a, s.getNodeById), n.get("/all", a, s.getAllNodes), 
-    n.get("/nodes", a, s.getNodesByIds), n.delete("/", a, s.deleteNode), n.put("/", a, s.updateNode);
+    n.post("/", a.adminAuth, s.addNode), n.get("/", a.adminAuth, s.getNodeById), n.get("/all", a.adminAuth, s.getAllNodes), 
+    n.get("/nodes", a.adminAuth, s.getNodesByIds), n.delete("/", a.adminAuth, s.deleteNode), 
+    n.put("/", a.adminAuth, s.updateNode);
 }, function(e, r, t) {
     "use strict";
     var n, a, s, u, o, i, c = (n = m(regeneratorRuntime.mark(function e(r, t) {
@@ -11992,8 +12096,9 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(72);
-    n.post("/", a, s.addServer), n.delete("/", a, s.deleteServer), n.get("/", a, s.getServerById), 
-    n.get("/servers", a, s.getServersByIds), n.get("/all", a, s.getAllServers), n.put("/", a, s.updateServer);
+    n.post("/", a.adminAuth, s.addServer), n.delete("/", a.adminAuth, s.deleteServer), 
+    n.get("/", a.adminAuth, s.getServerById), n.get("/servers", a.adminAuth, s.getServersByIds), 
+    n.get("/all", a.adminAuth, s.getAllServers), n.put("/", a.adminAuth, s.updateServer);
 }, function(e, r, t) {
     "use strict";
     var n, a, s, u = (n = c(regeneratorRuntime.mark(function e(r, t) {
@@ -13079,10 +13184,11 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(78);
-    n.post("/", a, s.addEmailUser), n.get("/", a, s.getEmailUser), n.delete("/", a, s.deleteEmailUser), 
-    n.get("/email_users", a, s.getEmailUsersByIds), n.put("/", a, s.updateEmailUser), 
-    n.post("/login", s.emailUserLogin), n.post("/logout", a, s.emailUserLogout), n.post("/password", a, s.sendResetPasswordEmail), 
-    n.post("/password/reset", a, s.resetPassword), n.post("/password/change", a, s.changePasswordById);
+    n.post("/", a.userAuth, s.addEmailUser), n.get("/", a.userAuth, s.getEmailUser), 
+    n.delete("/", a.userAuth, s.deleteEmailUser), n.get("/email_users", a.userAuth, s.getEmailUsersByIds), 
+    n.put("/", a.userAuth, s.updateEmailUser), n.post("/login", s.emailUserLogin), n.post("/logout", a.userAuth, s.emailUserLogout), 
+    n.post("/password", a.userAuth, s.sendResetPasswordEmail), n.post("/password/reset", a.userAuth, s.resetPassword), 
+    n.post("/password/change", a.userAuth, s.changePasswordById);
 }, function(e, r, t) {
     "use strict";
     var n = t(2)(), a = t(5);
@@ -13090,7 +13196,7 @@
     var s = t(79);
     n.use("/", s);
     var u = t(74);
-    n.get("/users", a, u.getUsersByIds), n.get("/all", a, u.getAllUsers);
+    n.get("/users", a.userAuth, u.getUsersByIds), n.get("/all", a.userAuth, u.getAllUsers);
 }, function(e, r) {
     e.exports = require("passport-jwt");
 }, function(e, r) {
