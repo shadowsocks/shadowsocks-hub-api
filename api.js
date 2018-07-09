@@ -11385,20 +11385,20 @@
             for (;;) switch (e.prev = e.next) {
               case 0:
                 if (r.sanitizeBody("serverId").trim(), r.checkBody("serverId", "Invalid serverId").isUUID(), 
-                r.sanitizeBody("name").trim(), r.checkBody("name", "Invalid name").notEmpty(), r.checkBody("protocol", "Invalid protocol").notEmpty().isIn([ "shadowsocks" ]), 
-                r.checkBody("password", "Invalid password").notEmpty(), r.checkBody("port", "Invalid port number").isInt({
+                r.sanitizeBody("name").trim(), r.checkBody("name", "Invalid name").notEmpty(), r.checkBody("password", "Invalid password").notEmpty(), 
+                r.checkBody("port", "Invalid port number").isInt({
                     min: 1,
                     max: 65535
                 }), !(n = r.validationErrors())) {
-                    e.next = 10;
+                    e.next = 9;
                     break;
                 }
                 return e.abrupt("return", t.status(400).send({
                     error: n
                 }));
 
-              case 10:
-                return e.prev = 11, e.next = 14, w.addNode(r.body);
+              case 9:
+                return r.body.protocol = "shadowsocks", e.prev = 11, e.next = 14, w.addNode(r.body);
 
               case 14:
                 return a = e.sent, e.abrupt("return", t.status(201).send({
@@ -11451,26 +11451,26 @@
                 return e.prev = 5, e.next = 8, w.getNodeById(r.query.id);
 
               case 8:
-                return a = e.sent, e.abrupt("return", t.status(200).send(a));
+                return delete (a = e.sent).protocol, e.abrupt("return", t.status(200).send(a));
 
-              case 12:
-                if (e.prev = 12, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
-                    e.next = 16;
+              case 13:
+                if (e.prev = 13, e.t0 = e.catch(5), "id does not exist" !== e.t0.message) {
+                    e.next = 17;
                     break;
                 }
                 return e.abrupt("return", t.status(404).end());
 
-              case 16:
+              case 17:
                 return e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 18:
               case 19:
+              case 20:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 5, 12 ] ]);
+        }, e, this, [ [ 5, 13 ] ]);
     })), function(e, r) {
         return a.apply(this, arguments);
     }), d = (s = m(regeneratorRuntime.mark(function e(r, t) {

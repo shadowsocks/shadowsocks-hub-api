@@ -286,14 +286,14 @@ Only `admin user` can call this API.
 | Request method:               |  POST                                                             |
 | Request URL:                  |  https://host_name:port/api/node                                  |
 | Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_authentication_token |
-| Request Body:                 |  {"serverId":"server_id", "protocol":"shadowsocks", "port":port_number, "password":"somePassword", "name":"someName"} |
+| Request Body:                 |  {"serverId":"server_id", "port":port_number, "password":"somePassword", "name":"someName"} |
 | Response HTTP Status Code:    |  201 Created                                                      |
 | Response Body:                |  {"id","node_id"}                                                 |
 | Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 404 Not Found (server does not exist) <br> 409 Conflict (node already exists) <br> 500 Internal Server Error |
 
 Request example (curl):  
 ```
-curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyZGE5OWUwLTdkNDctNGNlMi1iOGM4LTMwODhlMDEzMjQ1OSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMDc1OTQ3NCwiZXhwIjoxNTMwODQ1ODc0fQ.XqS8UBj7hWNeKjaGlXjrZDHuVZWM_8thw__ojAkBG0A" -X POST -d '{"serverId":"c9be32dd-e2d6-4af4-876f-f086e82af20c", "protocol":"shadowsocks", "port":4001, "password":"pleaseChangeThisPassword", "name":"New York"}' https://localhost:8000/api/node
+curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyZGE5OWUwLTdkNDctNGNlMi1iOGM4LTMwODhlMDEzMjQ1OSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMDc1OTQ3NCwiZXhwIjoxNTMwODQ1ODc0fQ.XqS8UBj7hWNeKjaGlXjrZDHuVZWM_8thw__ojAkBG0A" -X POST -d '{"serverId":"c9be32dd-e2d6-4af4-876f-f086e82af20c", "port":4001, "password":"pleaseChangeThisPassword", "name":"New York"}' https://localhost:8000/api/node
 ```
 Response example:  
 ```json
@@ -327,7 +327,7 @@ Only `admin user` can call this API.
 | Request URL:                  |  https://host_name:port/api/node?id=node_id                      |
 | Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_authentication_token |
 | Response HTTP Status Code:    |  200 OK                                                           |
-| Response Body:                |  {"id":"server_id", "ipAddressOrDomainName":"server_ip_address_or_domain_name", "createdTime":epoch_time} |
+| Response Body:                |  {"id":"node_id", "server":{"id":"server_id", "ipAddressOrDomainName":"server_ip_address_or_domain_name", "createdTime":server_created_time}, "password":"some_password", "port":node_management_port_number, "name":"node_name", "comment":"come_comment", "createdTime":node_createdTime} |
 | Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 404 Not Found (node does not exist) <br> 500 Internal Server Error |
 
 Request example (curl):  
@@ -336,7 +336,7 @@ curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciO
 ```
 Response example:  
 ```json
-{"id":"075a74fd-d8ab-4313-bde3-f9cb99d7215d","server":{"id":"7b15f7ba-ee6c-452d-8264-0657f202590d","ipAddressOrDomainName":"127.0.0.1","createdTime":1530790525902},"protocol":"shadowsocks","password":"pleaseChangeThisPassword","port":4001,"name":"New York","comment":null,"createdTime":1530790577846}
+{"id":"075a74fd-d8ab-4313-bde3-f9cb99d7215d","server":{"id":"7b15f7ba-ee6c-452d-8264-0657f202590d","ipAddressOrDomainName":"127.0.0.1","createdTime":1530790525902},"password":"pleaseChangeThisPassword","port":4001,"name":"New York","comment":null,"createdTime":1530790577846}
 ```
 
 #### Update Node
