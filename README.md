@@ -57,6 +57,13 @@ Shadowsocks Hub API is developed using Nodejs. It uses MySQL as its underlying d
 
 9. Shadowsocks Hub API utilize [shadowsocks-restful-api](https://github.com/shadowsocks/shadowsocks-restful-api) to manage shadowsocks protocol. Install it on every server that you would like to use as a shadowsocks node.
 
+## Update
+If you have updated Shadowsocks Hub API from an older version to the latest version, run:
+```
+cd ~/shadowsocks-hub-api
+knex migrate:latest --env production
+```
+
 ## Run
 1. Run Shadowsocks Hub API:
     ```
@@ -72,9 +79,11 @@ Shadowsocks Hub API is developed using Nodejs. It uses MySQL as its underlying d
 
 ## Authentication
 
-All the APIs except for the `login` API require an Authorization header. The header pattern is: `Authorization: Bearer <token>`. The token can be obtained from the `login` API.
+All the APIs except for the `login` API require an Authorization header. The header pattern is: `Authorization: Bearer <token>`. The token can be obtained from the `login` or `refresh token` API. The authentication is compatiable with [OAuth 2](https://oauth.net/2/). There are 3 APIs relating to authentication: `login`, `refresh token`, and `invalidate refresh token`.
 
-A token expires in 24 hours. A new token is needed once the old one expires. Tokens can be re-used in multiple requests before expiration.
+Access token expires in 15 minutes while refresh token exipires in 1 week. Both `login` and `refresh token` APIs will produce a pair of new access token and refresh token. The difference is that `login` API requires `username` and `password` while `refresh token` API requires a valid refresh token to be provided in the `Authorization Bearer` header.
+
+The `invalidate refresh token` API can be used to invalidate all previously obtained refresh tokens.
 
 ## Rate limit
 
@@ -88,7 +97,7 @@ Bug report and feature request are welcome. Bugs have a high priority to get add
 ## APIs
 
 ### 1. User APIs
-There are two type of users: `admin user` and `normal user`. Admin user has priviliege to make any API requests. Normal user has priviliege to make API requests relating to themselves only.
+There are two type of users: `admin user` and `normal user`. This API is [OAuth 2](https://oauth.net/2/) compatiable. Admin user has priviliege to make any API requests. Normal user has priviliege to make API requests relating to themselves only.
 
 #### Login
 Both `admin user` and `normal user` can call this API.
@@ -100,7 +109,7 @@ Both `admin user` and `normal user` can call this API.
 | Request Header:               |  Content-Type: application/json                                   |
 | Request Body:                 |  {"username":"your_username", "password":"your_login_password"}   |
 | Response HTTP Status Code:    |  201 Created                                                      |
-| Response Body:                |  {"token","your_authentication_token"}                            |
+| Response Body:                |  {"token":"new_authentication_token", "refreshToken":"new_refresh_token"} |
 | Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 500 Internal Server Error |
 
 Request example (curl):  
@@ -109,7 +118,50 @@ curl -ik -H "Content-Type: application/json" -X POST -d '{"username":"admin@emai
 ```
 Response example:  
 ```json
-{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyZGE5OWUwLTdkNDctNGNlMi1iOGM4LTMwODhlMDEzMjQ1OSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMDc1OTQ3NCwiZXhwIjoxNTMwODQ1ODc0fQ.XqS8UBj7hWNeKjaGlXjrZDHuVZWM_8thw__ojAkBG0A"}
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDMzMiwiZXhwIjoxNTMxMjI1MjMyfQ.h82mSltnLua-XLPHyV7X2-lqe94O7dYE7Ujachg3NDY","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDMzMiwiZXhwIjoxNTMxODI5MTMyfQ.PIL-thIdKr2ji5LDOelLXPfIZQUvo3II1KrOG0-lLx4"}
+```
+
+#### Refresh Token
+Both `admin user` and `normal user` can call this API. This API is [OAuth 2](https://oauth.net/2/) compatiable. You will get a set of new `token` and `refreshToken`. Note that you need supply `refreshToken` instead of `token` to `Authorization Bearer` header.
+
+|                               |                                                                   |
+| :---------------------------- | :---------------------------------------------------------------- |
+| Request method:               |  GET                                                              |
+| Request URL:                  |  https://host_name:port/api/user/refresh_token                    |
+| Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_refresh_token |
+| Response HTTP Status Code:    |  200 OK                                                           |
+| Response Body:                |  {"token":"new_authentication_token", "refreshToken":"new_refresh_token"} |
+| Response Error Status Code:   |  401 Unauthorized <br> 500 Internal Server Error                  |
+
+Request example (curl):  
+```
+curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDMzMiwiZXhwIjoxNTMxODI5MTMyfQ.PIL-thIdKr2ji5LDOelLXPfIZQUvo3II1KrOG0-lLx4" https://localhost:8000/api/user/refresh_token
+```
+Response example:  
+```json
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDM4NSwiZXhwIjoxNTMxMjI1Mjg1fQ.U_A74GyZy9xGZsj49weYaPK99iZeBaIFkCX9GVx9_dE","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDM4NSwiZXhwIjoxNTMxODI5MTg1fQ.6OoLLVmTAsHMtDsLWPl9lS19w1WMQeyNyL9WLReEjaQ"}
+```
+
+#### Invalidate Refresh Token
+Both `admin user` and `normal user` can call this API. This API is [OAuth 2](https://oauth.net/2/) compatiable. You will invalidate all previously obtained `refreshToken`. Note that you need supply `refreshToken` instead of `token` to `Authorization Bearer` header.
+
+|                               |                                                                   |
+| :---------------------------- | :---------------------------------------------------------------- |
+| Request method:               |  POST                                                             |
+| Request URL:                  |  https://host_name:port/api/user/invalidate_refresh_token         |
+| Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_refresh_token |
+| Request Body:                 |  {}                                                               |
+| Response HTTP Status Code:    |  201 Created                                                      |
+| Response Body:                |  {}                                                               |
+| Response Error Status Code:   |  401 Unauthorized <br> 500 Internal Server Error                  |
+
+Request example (curl):  
+```
+curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVmYjQ3LTI4YzYtNDA1OC1hMDBiLTc1ZGI1MTQ0OGJkNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMTIyNDMzMiwiZXhwIjoxNTMxODI5MTMyfQ.PIL-thIdKr2ji5LDOelLXPfIZQUvo3II1KrOG0-lLx4" -X POST -d '{"username":"admin@email.com","password":"pleaseChangePassword"}' https://localhost:8000/api/user/invalidate_refresh_token
+```
+Response example:  
+```json
+{}
 ```
 
 #### Create User
