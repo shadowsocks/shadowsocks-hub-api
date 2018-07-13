@@ -11304,8 +11304,8 @@
     var n = t(2)(), a = t(5);
     e.exports = n;
     var s = t(66);
-    n.post("/", a.adminAuth, s.addProduct), n.get("/", a.adminAuth, s.getProductById), 
-    n.get("/products", a.adminAuth, s.getProductsByIds), n.get("/all", a.adminAuth, s.getAllProducts), 
+    n.post("/", a.adminAuth, s.addProduct), n.get("/", a.authentication, s.getProductById), 
+    n.get("/products", a.authentication, s.getProductsByIds), n.get("/all", a.authentication, s.getAllProducts), 
     n.put("/", a.adminAuth, s.updateProduct), n.delete("/", a.adminAuth, s.deleteProduct);
 }, function(e, r) {
     e.exports = require("jwt-decode");
