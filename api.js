@@ -6085,15 +6085,22 @@
                 throw new Error("id does not exist");
 
               case 8:
-                return e.next = 11, l.updatePaymentStateById(t.id, "completed");
+                if ("completed" !== t.state) {
+                    e.next = 11;
+                    break;
+                }
+                throw new Error("payment is already completed");
 
               case 11:
-                return e.next = 13, l.listenOnPaymentCompletion(t.id);
-
-              case 13:
-                return e.abrupt("return");
+                return e.next = 14, l.updatePaymentStateById(t.id, "completed");
 
               case 14:
+                return e.next = 16, l.listenOnPaymentCompletion(t.id);
+
+              case 16:
+                return e.abrupt("return");
+
+              case 17:
               case "end":
                 return e.stop();
             }
@@ -10855,18 +10862,25 @@
 
               case 12:
                 if (e.prev = 12, e.t0 = e.catch(6), "id does not exist" !== e.t0.message) {
-                    e.next = 16;
+                    e.next = 18;
                     break;
                 }
                 return e.abrupt("return", t.status(404).end());
 
-              case 16:
+              case 18:
+                if ("payment is already completed" !== e.t0.message) {
+                    e.next = 20;
+                    break;
+                }
+                return e.abrupt("return", t.status(409).end());
+
+              case 20:
                 return e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 18:
-              case 19:
+              case 22:
+              case 23:
               case "end":
                 return e.stop();
             }
