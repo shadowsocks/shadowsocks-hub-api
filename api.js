@@ -3295,24 +3295,31 @@
 
               case 31:
               case 32:
-                return e.next = 35, x(a);
+                if ("completed" === s.payment.state) {
+                    e.next = 35;
+                    break;
+                }
+                throw new Error("purchase is not completed");
 
               case 35:
+                return e.next = 38, x(a);
+
+              case 38:
                 return u = e.sent, o = new B({
                     node: a,
                     purchase: s,
                     port: u.port,
                     password: u.password,
                     method: u.method
-                }), e.next = 39, g(o);
+                }), e.next = 42, g(o);
 
-              case 39:
-                return e.next = 41, P.addSsAccount(o);
+              case 42:
+                return e.next = 44, P.addSsAccount(o);
 
-              case 41:
+              case 44:
                 return i = e.sent, e.abrupt("return", i);
 
-              case 43:
+              case 46:
               case "end":
                 return e.stop();
             }
@@ -9947,19 +9954,34 @@
                 }));
 
               case 15:
-                if (e.prev = 15, e.t0 = e.catch(8), "node does not exist" !== e.t0.message && "purchase does not exist" !== e.t0.message) {
-                    e.next = 19;
+                if (e.prev = 15, e.t0 = e.catch(8), "node does not exist" !== e.t0.message) {
+                    e.next = 21;
                     break;
                 }
                 return e.abrupt("return", t.status(404).end());
 
-              case 19:
+              case 21:
+                if ("purchase does not exist" !== e.t0.message) {
+                    e.next = 25;
+                    break;
+                }
+                return e.abrupt("return", t.status(420).end());
+
+              case 25:
+                if ("purchase is not completed" !== e.t0.message) {
+                    e.next = 29;
+                    break;
+                }
+                return e.abrupt("return", t.status(409).end());
+
+              case 29:
                 return e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 21:
-              case 22:
+              case 30:
+              case 31:
+              case 32:
               case "end":
                 return e.stop();
             }
@@ -12007,20 +12029,18 @@
                 }));
 
               case 18:
-                if (e.prev = 18, e.t0 = e.catch(11), "node already exists" !== e.t0.message) {
+                if (e.prev = 18, e.t0 = e.catch(11), "server does not exist" !== e.t0.message) {
                     e.next = 22;
                     break;
                 }
-                return e.abrupt("return", t.status(409).end());
+                return e.abrupt("return", t.status(404).end());
 
               case 22:
-                if ("server does not exist" !== e.t0.message) {
+                if ("node already exists" !== e.t0.message) {
                     e.next = 25;
                     break;
                 }
-                return e.abrupt("return", t.status(404).send({
-                    error: e.t0.message
-                }));
+                return e.abrupt("return", t.status(409).end());
 
               case 25:
                 return e.abrupt("return", t.status(500).send({
