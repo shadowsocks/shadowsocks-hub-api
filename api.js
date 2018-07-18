@@ -10012,7 +10012,7 @@
                 return e.prev = 5, e.next = 8, l.getSsAccountById(r.query.id);
 
               case 8:
-                if (a = e.sent, (s = h(a)).purchase.user.id !== r.user.id) {
+                if (a = e.sent, s = h(a), "admin" !== r.user.role && s.request.user.id !== r.user.id) {
                     e.next = 14;
                     break;
                 }
