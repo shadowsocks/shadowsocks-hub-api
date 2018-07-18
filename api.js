@@ -10107,7 +10107,7 @@
 
               case 34:
                 if (c = e.sent, p = !0, c.forEach(function(e) {
-                    e.purchase.user.id !== r.user.id && (p = !1);
+                    "admin" !== r.user.role && e.purchase.user.id !== r.user.id && (p = !1);
                 }), !p) {
                     e.next = 41;
                     break;
@@ -10307,7 +10307,7 @@
 
               case 34:
                 if (c = e.sent, p = !0, c.forEach(function(e) {
-                    e.purchase.user.id !== r.user.id && (p = !1);
+                    "admin" !== r.user.role && e.purchase.user.id !== r.user.id && (p = !1);
                 }), !p) {
                     e.next = 41;
                     break;
@@ -10396,7 +10396,7 @@
 
               case 34:
                 if (c = e.sent, p = !0, c.forEach(function(e) {
-                    e.purchase.user.id !== r.user.id && (p = !1);
+                    "admin" !== r.user.role && e.purchase.user.id !== r.user.id && (p = !1);
                 }), !p) {
                     e.next = 41;
                     break;
@@ -10600,7 +10600,7 @@
                 return e.prev = 5, e.next = 8, m.getPurchaseById(r.query.id);
 
               case 8:
-                if ((a = e.sent).user.id !== r.user.id) {
+                if (a = e.sent, "admin" !== r.user.role && a.user.id !== r.user.id) {
                     e.next = 13;
                     break;
                 }
@@ -10718,7 +10718,7 @@
 
               case 34:
                 if (c = e.sent, p = !0, c.forEach(function(e) {
-                    e.user.id !== r.user.id && (p = !1);
+                    "admin" !== r.user.role && e.user.id !== r.user.id && (p = !1);
                 }), !p) {
                     e.next = 41;
                     break;
