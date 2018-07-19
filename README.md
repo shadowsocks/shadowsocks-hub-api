@@ -583,6 +583,28 @@ Response example:
 {"id":"c2e5a807-9525-4c23-b121-6024e2d1eebb","node":{"id":"cd41dc00-2e53-4d7f-8374-b44e82caaeaa","server":{"id":"aec2a2ad-ecb4-4a12-b90d-4acaeb8ec676","ipAddressOrDomainName":"127.0.0.1","createdTime":1530838310353},"port":4001,"name":"New York","comment":null,"createdTime":1530838367312},"port":50647,"createdTime":1530847875199,"password":"ee60fe5cf97433e9","method":"aes-256-cfb","approval":{"id":"1ab123d0-92d6-4c6d-991e-c82cd03182f2","state":"completed","createdTime":1530842543004},"request":{"id":"4da6972a-2e10-4f20-8cc0-4ad66e886607","user":{"id":"ad5ceb7f-4a6d-4577-8ed6-01e3acb2604c","role":"user","email":"user@email.com","createdTime":1530838144205,"username":"user@email.com","lastLoginTime":null},"product":{"id":"48e6a637-f94e-4d8e-b71c-9793a37e7e2c","name":"dimond","traffic":1000000000,"period":"monthly","createdTime":1530838417112},"createdTime":1530842543116}}
 ```
 
+#### Get Accounts by User Id
+
+Both `admin user` and `normal user` can call this API. But `normal user` can get accounts for themselves only. The `admin user` can accounts for any users.
+
+|                               |                                                                   |
+| :---------------------------- | :---------------------------------------------------------------- |
+| Request method:               |  GET                                                              |
+| Request URL:                  |  https://host_name:port/api/account/accounts_by_user_id?id=account_id                |
+| Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_authentication_token |
+| Response HTTP Status Code:    |  200 OK                                                           |
+| Response Body:                |  [{"id":"account_id", "node":{"id":"node_id", "server":{"id":"server_id", "ipAddressOrDomainName":"server_ip_address_or_domain_name", "createdTime":server_created_time}, "port":node_management_port_number, "name":"node_name", "comment": "noe_comment", "createdTime":node_created_time},"port":account_port_number, "createdTime":account__created_time, "password":"account_password", "method":"encryption_method", "approval":{"id":"approval_id", "state":"approval_state", "createdTime":approval_created_time}, "request":{"id":"request_id", "user":{"id":"user_id", "role":"user_role", "email":"user_email_address", "createdTime":user_created_time, "username":"user_email_address", "lastLoginTime":user_last_login_time}, "product":{"id":"product_id", "name":"product_name", "traffic":product_traffic, "period":"product_period", "createdTime":product_created_time}, "createdTime":request_created_time}},...] |
+| Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 404 Not Found (account does not exist) <br> 500 Internal Server Error |
+
+Request example (curl):  
+```
+curl -ik -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyZGE5OWUwLTdkNDctNGNlMi1iOGM4LTMwODhlMDEzMjQ1OSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzMDc1OTQ3NCwiZXhwIjoxNTMwODQ1ODc0fQ.XqS8UBj7hWNeKjaGlXjrZDHuVZWM_8thw__ojAkBG0A" https://localhost:8000/api/account/accounts_by_user_id?id=3ec1072e-e6e3-438d-99ad-2f891b877697
+```
+Response example:  
+```json
+[{"id":"c2e5a807-9525-4c23-b121-6024e2d1eebb","node":{"id":"cd41dc00-2e53-4d7f-8374-b44e82caaeaa","server":{"id":"aec2a2ad-ecb4-4a12-b90d-4acaeb8ec676","ipAddressOrDomainName":"127.0.0.1","createdTime":1530838310353},"port":4001,"name":"New York","comment":null,"createdTime":1530838367312},"port":50647,"createdTime":1530847875199,"password":"ee60fe5cf97433e9","method":"aes-256-cfb","approval":{"id":"1ab123d0-92d6-4c6d-991e-c82cd03182f2","state":"completed","createdTime":1530842543004},"request":{"id":"4da6972a-2e10-4f20-8cc0-4ad66e886607","user":{"id":"ad5ceb7f-4a6d-4577-8ed6-01e3acb2604c","role":"user","email":"user@email.com","createdTime":1530838144205,"username":"user@email.com","lastLoginTime":null},"product":{"id":"48e6a637-f94e-4d8e-b71c-9793a37e7e2c","name":"dimond","traffic":1000000000,"period":"monthly","createdTime":1530838417112},"createdTime":1530842543116}}]
+```
+
 ### 6. Traffic APIs
 
 Traffic is the amount of data transmitted by a node for an account.
