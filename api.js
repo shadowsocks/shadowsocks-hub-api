@@ -6035,7 +6035,7 @@
     t(0)("paypalPayment:service");
     if (process.env.PAYPAL_MODE && "sandbox" !== process.env.PAYPAL_MODE && "live" !== process.env.PAYPAL_MODE) throw new Error("unknown PAYPAL_MODE");
     x.configure({
-        mode: process.env.PAYPAL_MODE,
+        mode: process.env.PAYPAL_MODE || "sandbox",
         client_id: process.env.PAYPAL_CLIENT_ID,
         client_secret: process.env.PAYPAL_CLIENT_SECRET
     }), e.exports.createPaypalPayment = c, e.exports.executePaypalPayment = p, e.exports.getPaypalPaymentById = d, 
