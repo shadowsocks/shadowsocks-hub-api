@@ -8542,11 +8542,11 @@
     e.exports.refreshLastLogoutTimeById = l, e.exports.getUserLastLogoutTimeById = h;
 }, function(e, r, t) {
     "use strict";
-    var n, a, s, u, o, i, c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
+    var n, a, s, u, o, i, c, p = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
         return typeof e;
     } : function(e) {
         return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
-    }, p = (n = x(regeneratorRuntime.mark(function e(r, t) {
+    }, d = (n = g(regeneratorRuntime.mark(function e(r, t) {
         var n, a;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
@@ -8560,7 +8560,7 @@
                 }));
 
               case 4:
-                return e.prev = 5, e.next = 8, v.getUserById(r.query.id);
+                return e.prev = 5, e.next = 8, y.getUserById(r.query.id);
 
               case 8:
                 return a = e.sent, e.abrupt("return", t.status(200).send(a));
@@ -8585,7 +8585,7 @@
         }, e, this, [ [ 5, 12 ] ]);
     })), function(e, r) {
         return n.apply(this, arguments);
-    }), d = (a = x(regeneratorRuntime.mark(function e(r, t) {
+    }), f = (a = g(regeneratorRuntime.mark(function e(r, t) {
         var n, a, s, u, o, i, c;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
@@ -8606,7 +8606,7 @@
                     e.next = 16;
                     break;
                 }
-                if (i = o.value, w.isUUID(i)) {
+                if (i = o.value, v.isUUID(i)) {
                     e.next = 12;
                     break;
                 }
@@ -8643,7 +8643,7 @@
                 return e.finish(22);
 
               case 30:
-                return e.prev = 31, e.next = 34, v.getUsersByIds(r.query.ids);
+                return e.prev = 31, e.next = 34, y.getUsersByIds(r.query.ids);
 
               case 34:
                 return c = e.sent, e.abrupt("return", t.status(200).send(c));
@@ -8661,30 +8661,57 @@
         }, e, this, [ [ 6, 18, 22, 30 ], [ 23, , 25, 29 ], [ 31, 38 ] ]);
     })), function(e, r) {
         return a.apply(this, arguments);
-    }), f = (s = x(regeneratorRuntime.mark(function e(r, t) {
-        var n;
+    }), l = (s = g(regeneratorRuntime.mark(function e(r, t) {
+        var n, a;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
-                return e.prev = 0, e.next = 3, v.getAllUsers();
+                return e.prev = 0, e.next = 3, y.getAllUsers();
 
               case 3:
-                return n = e.sent, e.abrupt("return", t.status(200).send(n));
+                return n = e.sent, a = n.filter(function(e) {
+                    return "user" === e.role;
+                }), e.abrupt("return", t.status(200).send(a));
 
-              case 7:
-                return e.prev = 7, e.t0 = e.catch(0), e.abrupt("return", t.status(500).send({
+              case 8:
+                return e.prev = 8, e.t0 = e.catch(0), e.abrupt("return", t.status(500).send({
                     error: e.t0
                 }));
 
-              case 10:
               case 11:
+              case 12:
               case "end":
                 return e.stop();
             }
-        }, e, this, [ [ 0, 7 ] ]);
+        }, e, this, [ [ 0, 8 ] ]);
     })), function(e, r) {
         return s.apply(this, arguments);
-    }), l = (u = x(regeneratorRuntime.mark(function e(r, t) {
+    }), h = (u = g(regeneratorRuntime.mark(function e(r, t) {
+        var n, a;
+        return regeneratorRuntime.wrap(function(e) {
+            for (;;) switch (e.prev = e.next) {
+              case 0:
+                return e.prev = 0, e.next = 3, y.getAllUsers();
+
+              case 3:
+                return n = e.sent, a = n.filter(function(e) {
+                    return "admin" === e.role;
+                }), e.abrupt("return", t.status(200).send(a));
+
+              case 8:
+                return e.prev = 8, e.t0 = e.catch(0), e.abrupt("return", t.status(500).send({
+                    error: e.t0
+                }));
+
+              case 11:
+              case 12:
+              case "end":
+                return e.stop();
+            }
+        }, e, this, [ [ 0, 8 ] ]);
+    })), function(e, r) {
+        return u.apply(this, arguments);
+    }), m = (o = g(regeneratorRuntime.mark(function e(r, t) {
         var n, a, s, u, o, i, c, p;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
@@ -8696,7 +8723,7 @@
                 return e.abrupt("return", t.status(401).end());
 
               case 2:
-                n = r.headers.authorization.substring(7), a = void 0, e.prev = 4, a = g.verify(n, global.REFRESH_JWT_SECRET), 
+                n = r.headers.authorization.substring(7), a = void 0, e.prev = 4, a = b.verify(n, global.REFRESH_JWT_SECRET), 
                 e.next = 11;
                 break;
 
@@ -8704,7 +8731,7 @@
                 return e.prev = 8, e.t0 = e.catch(4), e.abrupt("return", t.status(401).end());
 
               case 11:
-                return s = a.id, u = 1e3 * a.iat, e.next = 16, h(s, u);
+                return s = a.id, u = 1e3 * a.iat, e.next = 16, x(s, u);
 
               case 16:
                 if (!e.sent) {
@@ -8717,7 +8744,7 @@
                 return e.prev = 19, o = {
                     id: a.id,
                     role: a.role
-                }, i = b(o), c = i.token, p = i.refreshToken, e.abrupt("return", t.status(200).send({
+                }, i = k(o), c = i.token, p = i.refreshToken, e.abrupt("return", t.status(200).send({
                     token: c,
                     refreshToken: p
                 }));
@@ -8734,12 +8761,12 @@
             }
         }, e, this, [ [ 4, 8 ], [ 19, 25 ] ]);
     })), function(e, r) {
-        return u.apply(this, arguments);
-    }), h = (o = x(regeneratorRuntime.mark(function e(r, t) {
+        return o.apply(this, arguments);
+    }), x = (i = g(regeneratorRuntime.mark(function e(r, t) {
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
               case 0:
-                if (r && w.isUUID(r)) {
+                if (r && v.isUUID(r)) {
                     e.next = 2;
                     break;
                 }
@@ -8753,7 +8780,7 @@
                 throw new Error("illegal argument");
 
               case 5:
-                return e.next = 8, v.hasUserLoggedOutSince(r, t);
+                return e.next = 8, y.hasUserLoggedOutSince(r, t);
 
               case 8:
                 return e.abrupt("return", e.sent);
@@ -8764,8 +8791,8 @@
             }
         }, e, this);
     })), function(e, r) {
-        return o.apply(this, arguments);
-    }), m = (i = x(regeneratorRuntime.mark(function e(r, t) {
+        return i.apply(this, arguments);
+    }), w = (c = g(regeneratorRuntime.mark(function e(r, t) {
         var n, a, s, u;
         return regeneratorRuntime.wrap(function(e) {
             for (;;) switch (e.prev = e.next) {
@@ -8777,7 +8804,7 @@
                 return e.abrupt("return", t.status(401).end());
 
               case 2:
-                n = r.headers.authorization.substring(7), a = void 0, e.prev = 4, a = g.verify(n, global.REFRESH_JWT_SECRET), 
+                n = r.headers.authorization.substring(7), a = void 0, e.prev = 4, a = b.verify(n, global.REFRESH_JWT_SECRET), 
                 e.next = 11;
                 break;
 
@@ -8785,7 +8812,7 @@
                 return e.prev = 8, e.t0 = e.catch(4), e.abrupt("return", t.status(401).end());
 
               case 11:
-                return s = a.id, u = 1e3 * a.iat, e.next = 16, h(s, u);
+                return s = a.id, u = 1e3 * a.iat, e.next = 16, x(s, u);
 
               case 16:
                 if (!e.sent) {
@@ -8795,7 +8822,7 @@
                 return e.abrupt("return", t.status(401).end());
 
               case 18:
-                return e.prev = 19, e.next = 22, v.invalidateRefreshToken(s);
+                return e.prev = 19, e.next = 22, y.invalidateRefreshToken(s);
 
               case 22:
                 return e.abrupt("return", t.status(201).end());
@@ -8812,9 +8839,9 @@
             }
         }, e, this, [ [ 4, 8 ], [ 19, 25 ] ]);
     })), function(e, r) {
-        return i.apply(this, arguments);
+        return c.apply(this, arguments);
     });
-    function x(e) {
+    function g(e) {
         return function() {
             var r = e.apply(this, arguments);
             return new Promise(function(e, t) {
@@ -8834,21 +8861,22 @@
             });
         };
     }
-    var w = t(1), g = t(77), v = t(22);
+    var v = t(1), b = t(77), y = t(22);
     t(0)("user:controller");
-    function b(e) {
-        if ("object" !== (void 0 === e ? "undefined" : c(e)) || !e.hasOwnProperty("id") || !e.hasOwnProperty("role")) throw new Error("illegal argument");
+    function k(e) {
+        if ("object" !== (void 0 === e ? "undefined" : p(e)) || !e.hasOwnProperty("id") || !e.hasOwnProperty("role")) throw new Error("illegal argument");
         return {
-            token: g.sign(e, global.JWT_SECRET, {
+            token: b.sign(e, global.JWT_SECRET, {
                 expiresIn: 900
             }),
-            refreshToken: g.sign(e, global.REFRESH_JWT_SECRET, {
+            refreshToken: b.sign(e, global.REFRESH_JWT_SECRET, {
                 expiresIn: 604800
             })
         };
     }
-    e.exports.getUserById = p, e.exports.getUsersByIds = d, e.exports.getAllUsers = f, 
-    e.exports.refreshToken = l, e.exports.signTokens = b, e.exports.invalidateRefreshToken = m;
+    e.exports.getUserById = d, e.exports.getUsersByIds = f, e.exports.getAllUsers = l, 
+    e.exports.getAllAdmins = h, e.exports.refreshToken = m, e.exports.signTokens = k, 
+    e.exports.invalidateRefreshToken = w;
 }, function(e, r) {
     e.exports = require("bcryptjs");
 }, function(e, r) {
@@ -13562,7 +13590,8 @@
     n.use("/", s);
     var u = t(44);
     n.get("/users", a.userAuth, u.getUsersByIds), n.get("/all", a.userAuth, u.getAllUsers), 
-    n.get("/refresh_token", u.refreshToken), n.post("/invalidate_refresh_token", u.invalidateRefreshToken);
+    n.get("/admin/all", a.userAuth, u.getAllAdmins), n.get("/refresh_token", u.refreshToken), 
+    n.post("/invalidate_refresh_token", u.invalidateRefreshToken);
 }, function(e, r) {
     e.exports = require("passport-jwt");
 }, function(e, r) {
