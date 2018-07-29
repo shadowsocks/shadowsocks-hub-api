@@ -1,7 +1,7 @@
 # Shadowsocks Hub API
 Shadowsocks Hub API provides a set of open and standard restful APIs for managing shadowsocks users, servers, nodes, products, accounts, and traffic. It is best suitable for companies, organizations, and groups of people to manage their internal shadowsocks infrastructures. 
 
-Shadowsocks Hub API enables any developers to conveniently develop their own shadowsocks management UIs without reinventing the wheels of writing server-end logic. All common features have been made available in the form of restful APIs.
+Its web app (including graphic UI) can be found from [shadowsocks-hub](https://github.com/shadowsocks/shadowsocks-hub). Alternatively, you may choose to develop your own shadowsocks management UI by utilizing this set of API. All common features have been made available in the form of restful APIs.
 
 Shadowsocks Hub API is developed using Nodejs. It uses MySQL as its underlying database and shadowsocks-libev as its shadowsocks implementation. 
 
