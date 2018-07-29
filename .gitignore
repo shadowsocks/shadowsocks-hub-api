@@ -8,6 +8,9 @@ pids
 *.pid
 *.seed
 
+# Mac DS_Store
+.DS_Store
+
 # Dependency directories
 node_modules
 
