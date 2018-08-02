@@ -1,6 +1,6 @@
 {
   "name": "shadowsocks-hub-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A set of restful APIs for managing shadowsocks servers, node, users, services, accounts, and traffic.",
   "main": "api.js",
   "scripts": {

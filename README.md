@@ -87,7 +87,12 @@ The `invalidate refresh token` API can be used to invalidate all previously obta
 
 ## Rate limit
 
-A rate limit is applied to all APIs. The maximum number of requests allowed within 15-minute window from the same ip address is limited to 50. Requests exceeding the threshold will be refused with HTTP status code `429 Too Many Requests`.
+You may enforce a rate limit by setting the maximum number of requests allowed within 15-minute window from the same ip address. Requests exceeding the limit will be refused with HTTP status code `429 Too Many Requests`. This setting can be done by add the following config to the `.env` file.
+    ```
+    RATE_LIMIT = 50
+    ```
+
+   Change the number to your choice.
 
 
 ## Bug report and feature request
