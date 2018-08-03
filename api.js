@@ -2304,19 +2304,26 @@
 
               case 30:
               case 31:
-                return e.next = 34, g.doesNodeNameExist(s);
+                if (e.t1 = o.name !== s, !e.t1) {
+                    e.next = 37;
+                    break;
+                }
+                return e.next = 36, g.doesNodeNameExist(s);
 
-              case 34:
-                if (!e.sent) {
-                    e.next = 36;
+              case 36:
+                e.t1 = e.sent;
+
+              case 37:
+                if (!e.t1) {
+                    e.next = 39;
                     break;
                 }
                 throw new Error("node already exists");
 
-              case 36:
-                return o.password = a, o.port = n, o.name = s, o.comment = u, e.next = 43, g.updateNode(o);
+              case 39:
+                return o.password = a, o.port = n, o.name = s, o.comment = u, e.next = 46, g.updateNode(o);
 
-              case 43:
+              case 46:
               case "end":
                 return e.stop();
             }
@@ -7084,19 +7091,26 @@
                 throw new Error("id does not exist");
 
               case 21:
-                return e.next = 24, g.getProductByName(n);
+                if (e.t0 = u.name !== n, !e.t0) {
+                    e.next = 27;
+                    break;
+                }
+                return e.next = 26, g.getProductByName(n);
 
-              case 24:
-                if (!e.sent) {
-                    e.next = 26;
+              case 26:
+                e.t0 = e.sent;
+
+              case 27:
+                if (!e.t0) {
+                    e.next = 29;
                     break;
                 }
                 throw new Error("product already exists");
 
-              case 26:
-                return u.name = n, u.traffic = a, u.period = s, e.next = 32, g.updateProduct(u);
+              case 29:
+                return u.name = n, u.traffic = a, u.period = s, e.next = 35, g.updateProduct(u);
 
-              case 32:
+              case 35:
               case "end":
                 return e.stop();
             }
@@ -7695,19 +7709,26 @@
                 throw new Error("id does not exist");
 
               case 15:
-                return e.next = 18, g.getServerByIpAddressOrDomainName(n);
+                if (e.t0 = a.ipAddressOrDomainName !== n, !e.t0) {
+                    e.next = 21;
+                    break;
+                }
+                return e.next = 20, g.getServerByIpAddressOrDomainName(n);
 
-              case 18:
-                if (!e.sent) {
-                    e.next = 20;
+              case 20:
+                e.t0 = e.sent;
+
+              case 21:
+                if (!e.t0) {
+                    e.next = 23;
                     break;
                 }
                 throw new Error("server already exists");
 
-              case 20:
-                return a.ipAddressOrDomainName = n, e.next = 24, g.updateServer(a);
+              case 23:
+                return a.ipAddressOrDomainName = n, e.next = 27, g.updateServer(a);
 
-              case 24:
+              case 27:
               case "end":
                 return e.stop();
             }
@@ -13042,20 +13063,27 @@
                 throw new Error("id does not exist");
 
               case 20:
-                return e.next = 23, U.getEmailUserByUsername(a);
+                if (e.t0 = u.email !== a, !e.t0) {
+                    e.next = 26;
+                    break;
+                }
+                return e.next = 25, U.getEmailUserByUsername(a);
 
-              case 23:
-                if (!e.sent) {
-                    e.next = 25;
+              case 25:
+                e.t0 = e.sent;
+
+              case 26:
+                if (!e.t0) {
+                    e.next = 28;
                     break;
                 }
                 throw new Error("user already exists");
 
-              case 25:
-                return u.role = n, u.email = a, u.username = a, u.hashedPassword = s, e.next = 32, 
+              case 28:
+                return u.role = n, u.email = a, u.username = a, u.hashedPassword = s, e.next = 35, 
                 U.updateEmailUser(u);
 
-              case 32:
+              case 35:
               case "end":
                 return e.stop();
             }
