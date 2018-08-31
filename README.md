@@ -559,7 +559,7 @@ Only `admin user` can call this API.
 | Request URL:                  |  https://host_name:port/api/account?id=account_id                |
 | Request Header:               |  Authorization: Bearer your_authentication_token                  |
 | Response HTTP Status Code:    |  204 No Content                                                   |
-| Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 409 Conflict (account is in use) <br> 500 Internal Server Error |
+| Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 500 Internal Server Error |
 
 Request example (curl):  
 ```
