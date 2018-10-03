@@ -559,7 +559,7 @@ Only `admin user` can call this API.
 | Request URL:                  |  https://host_name:port/api/account?id=account_id                |
 | Request Header:               |  Authorization: Bearer your_authentication_token                  |
 | Response HTTP Status Code:    |  204 No Content                                                   |
-| Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 500 Internal Server Error |
+| Response Error Status Code:   |  400 Bad Request <br> 401 Unauthorized <br> 409 Conflict (account is in use) <br> 500 Internal Server Error |
 
 Request example (curl):  
 ```
@@ -595,7 +595,7 @@ Both `admin user` and `normal user` can call this API. But `normal user` can get
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  GET                                                              |
-| Request URL:                  |  https://host_name:port/api/account/accounts_by_user_id?id=account_id                |
+| Request URL:                  |  https://host_name:port/api/account/accounts_by_user_id?id=user_id                |
 | Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_authentication_token |
 | Response HTTP Status Code:    |  200 OK                                                           |
 | Response Body:                |  [{"id":"account_id", "node":{"id":"node_id", "server":{"id":"server_id", "ipAddressOrDomainName":"server_ip_address_or_domain_name", "createdTime":server_created_time}, "port":node_management_port_number, "name":"node_name", "comment": "noe_comment", "createdTime":node_created_time},"port":account_port_number, "createdTime":account__created_time, "password":"account_password", "method":"encryption_method", "approval":{"id":"approval_id", "state":"approval_state", "createdTime":approval_created_time}, "request":{"id":"request_id", "user":{"id":"user_id", "role":"user_role", "email":"user_email_address", "createdTime":user_created_time, "username":"user_email_address"}, "product":{"id":"product_id", "name":"product_name", "traffic":product_traffic, "period":"product_period", "createdTime":product_created_time}, "createdTime":request_created_time}},...] |
@@ -621,7 +621,7 @@ Both `admin user` and `normal user` can call this API. But `normal user` can get
 |                               |                                                                   |
 | :---------------------------- | :---------------------------------------------------------------- |
 | Request method:               |  GET                                                              |
-| Request URL:                  |  https://host_name:port/api/traffic/account?id=uuid?id=account_id                |
+| Request URL:                  |  https://host_name:port/api/traffic/account?id=account_id                |
 | Request Header:               |  Content-Type: application/json <br> Authorization: Bearer your_authentication_token |
 | Response HTTP Status Code:    |  200 OK                                                           |
 | Response Body:                |  {"usage":latest_usage}         |
